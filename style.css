@@ -1,7 +1,7 @@
 body {
     padding: 0;
     margin: 0;
-    background-color: #009bca;
+    background-color: #005eca;
     font-family: sans-serif;
     display: flex;
     justify-content: center;
@@ -29,7 +29,7 @@ td {
 }
 
 td:hover {
-    background-color: #00799e;
+    background-color: #00579e;
 }
 
 tr {

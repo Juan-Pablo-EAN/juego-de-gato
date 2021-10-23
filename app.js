@@ -53,37 +53,55 @@ const crearTabla = () => {
     td9.classList.add("id2f2");
 
     td1.addEventListener("click", () => {
-        escribirSimbolo(simbolo, td1);
+        if (td1.classList.length === 1) {
+            escribirSimbolo(simbolo, td1);
+        }
     });
     td2.addEventListener("click", () => {
-        escribirSimbolo(simbolo, td2);
+        if (td2.classList.length === 1) {
+            escribirSimbolo(simbolo, td2);
+        }
     });
     td3.addEventListener("click", () => {
-        escribirSimbolo(simbolo, td3);
+        if (td3.classList.length === 1) {
+            escribirSimbolo(simbolo, td3);
+        }
     });
     td4.addEventListener("click", () => {
-        escribirSimbolo(simbolo, td4);
+        if (td4.classList.length === 1) {
+            escribirSimbolo(simbolo, td4);
+        }
     });
     td5.addEventListener("click", () => {
-        escribirSimbolo(simbolo, td5);
+        if (td5.classList.length === 1) {
+            escribirSimbolo(simbolo, td5);
+        }
     });
     td6.addEventListener("click", () => {
-        escribirSimbolo(simbolo, td6);
+        if (td6.classList.length === 1) {
+            escribirSimbolo(simbolo, td6);
+        }
     });
     td7.addEventListener("click", () => {
-        escribirSimbolo(simbolo, td7);
+        if (td7.classList.length === 1) {
+            escribirSimbolo(simbolo, td7);
+        }
     });
     td8.addEventListener("click", () => {
-        escribirSimbolo(simbolo, td8);
+        if (td8.classList.length === 1) {
+            escribirSimbolo(simbolo, td8);
+        }
     });
     td9.addEventListener("click", () => {
-        escribirSimbolo(simbolo, td9);
+        if (td9.classList.length === 1) {
+            escribirSimbolo(simbolo, td9);
+        }
     });
 
     tr1.appendChild(td1);
     tr1.appendChild(td2);
     tr1.appendChild(td3);
-    
+
     tr2.appendChild(td4);
     tr2.appendChild(td5);
     tr2.appendChild(td6);
@@ -91,7 +109,7 @@ const crearTabla = () => {
     tr3.appendChild(td7);
     tr3.appendChild(td8);
     tr3.appendChild(td9);
-    
+
     tabla.appendChild(tr1);
     tabla.appendChild(tr2);
     tabla.appendChild(tr3);
@@ -128,18 +146,18 @@ const escribirSimbolo = (simb, nodo) => {
     let n = parseInt(id.substring(1, 0));
 
     cuadricula[f][n] = `${simbolo}`;
-
+    nodo.classList.add("ok");
     setTimeout(() => {
         jugadaComputadora();
-    },1000);  
+    }, 1000);
 }
 
 var espaciosVacios = [];
 
 const jugadaComputadora = () => {
-    for(let row = 0; row < cuadricula.length; row++){
-        for(let colum = 0; colum < cuadricula[row].length; colum++){
-            if(cuadricula[row][colum] === ""){
+    for (let row = 0; row < cuadricula.length; row++) {
+        for (let colum = 0; colum < cuadricula[row].length; colum++) {
+            if (cuadricula[row][colum] === "") {
                 espaciosVacios.push(`${row}/${colum}`);
             }
         }
@@ -148,7 +166,7 @@ const jugadaComputadora = () => {
 }
 
 const escogerEspacio = () => {
-    let radom = Math.round(Math.random() * (espaciosVacios.length - 1) + 0);
+    let radom = Math.round(Math.random() * (espaciosVacios.length - 1));
     console.log(cuadricula);
     let numero = espaciosVacios[radom].replace("/", "");
     let nFila = numero.charAt(0);
@@ -156,6 +174,7 @@ const escogerEspacio = () => {
     let cuadro = document.querySelector(`.id${nColum}f${nFila}`);
     cuadro.style.color = "rgb(8, 248, 60)";
     cuadro.textContent = simboloComp;
+    cuadro.classList.add("ok");
     cuadricula[nFila][nColum] = `${simboloComp}`;
     while (espaciosVacios.length > 0) {
         espaciosVacios.pop();
@@ -163,5 +182,72 @@ const escogerEspacio = () => {
 }
 
 const leerCuadricula = () => {
+    let letras = [];
+    if (cuadricula[0][0] == simbolo && cuadricula[1][1] == simbolo && cuadricula[2][0] == simbolo) {
+        
+    } else if(cuadricula[0][0] == simbolo && cuadricula[1][1] == simbolo && cuadricula[2][2] == simbolo){
 
+    } else if(cuadricula[0][0] == simbolo && cuadricula[1][0] == simbolo && cuadricula[2][0] == simbolo){
+
+    } else if(cuadricula[0][0] == simbolo && cuadricula[1][1] == simbolo && cuadricula[2][0] == simbolo){
+
+    } else if(cuadricula[0][1] == simbolo && cuadricula[1][1] == simbolo && cuadricula[2][1] == simbolo){
+
+    } else if(cuadricula[0][2] == simbolo && cuadricula[1][2] == simbolo && cuadricula[2][2] == simbolo){
+
+    }
 }
+
+// var cuadricula = [ este es el que sigue
+//     [
+//         "O",
+//         "O",
+//         "O"
+//     ],
+//     [
+//         "",
+//         "",
+//         ""
+//     ],
+//     [
+//         "",
+//         "",
+//         ""
+//     ]
+// ];
+
+// var cuadricula = [
+//     [
+//         "",
+//         "",
+//         ""
+//     ],
+//     [
+//         "O",
+//         "O",
+//         "O"
+//     ],
+//     [
+//         "",
+//         "",
+//         ""
+//     ]
+// ];
+
+// var cuadricula = [
+//     [
+//         "",
+//         "",
+//         ""
+//     ],
+//     [
+//         "",
+//         "",
+//         ""
+//     ],
+//     [
+//         "O",
+//         "O",
+//         "O."
+//     ]
+// ];
