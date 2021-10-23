@@ -11,6 +11,7 @@ const textoResult = document.querySelector(".resultado");
 var simbolo = "";
 var simboloComp = "";
 var ganador = false;
+var juegaC = false;
 
 const abrirModalR = texto => {
     setTimeout(() => {
@@ -161,8 +162,9 @@ var cuadricula = [
 ];
 
 const escribirSimbolo = (simb, nodo) => {
-    if (ganador === false) {
+    if (ganador === false && juegaC === false) {
         nodo.textContent = simb;
+        juegaC = true;
         let id = nodo.className;
         id = id.replace("id", "");
         id = id.replace("f", "");
@@ -205,6 +207,7 @@ const escogerEspacio = () => {
         let cuadro = document.querySelector(`.id${nColum}f${nFila}`);
         cuadro.style.color = "rgb(8, 248, 60)";
         cuadro.textContent = simboloComp;
+        juegaC = false;
         cuadro.classList.add("ok");
         cuadricula[nFila][nColum] = `${simboloComp}`;
         leerCuadricula(simboloComp);
