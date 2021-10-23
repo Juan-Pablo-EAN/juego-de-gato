@@ -2,12 +2,35 @@ const fondo = document.querySelector(".fondo");
 const fondoModal = document.querySelector(".fondoModal");
 const botonX = document.getElementById("botonX");
 const botonO = document.getElementById("botonO");
+const modalResult = document.querySelector(".modalResult");
+const aceptar = document.getElementById("aceptar");
+const reiniciar = document.getElementById("reiniciar");
+const resultadoModal = document.querySelector(".resultadoModal");
+const textoResult = document.querySelector(".resultado");
 
 var simbolo = "";
 var simboloComp = "";
+var ganador = false;
+
+const abrirModalR = texto => {
+    setTimeout(() => {
+        resultadoModal.style.display = "flex";
+        textoResult.textContent = texto;
+        ganador = true;
+    }, 500);
+}
+
+aceptar.addEventListener("click", () => {
+    cerrarModal();
+});
+
+reiniciar.addEventListener("click", () => {
+    location.reload();
+});
 
 const cerrarModal = () => {
     fondoModal.style.display = "none";
+    resultadoModal.style.display = "none";
 }
 
 botonX.addEventListener("click", () => {
@@ -120,17 +143,17 @@ const crearTabla = () => {
 crearTabla();
 
 var cuadricula = [
-    [ //fila0
+    [
         "",
         "",
         ""
     ],
-    [ //fila1
+    [
         "",
         "",
         ""
     ],
-    [ //fila2
+    [
         "",
         "",
         ""
@@ -138,116 +161,87 @@ var cuadricula = [
 ];
 
 const escribirSimbolo = (simb, nodo) => {
-    nodo.textContent = simb;
-    let id = nodo.className;
-    id = id.replace("id", "");
-    id = id.replace("f", "");
-    let f = parseInt(id.charAt(id.length - 1));
-    let n = parseInt(id.substring(1, 0));
+    if (ganador === false) {
+        nodo.textContent = simb;
+        let id = nodo.className;
+        id = id.replace("id", "");
+        id = id.replace("f", "");
+        let f = parseInt(id.charAt(id.length - 1));
+        let n = parseInt(id.substring(1, 0));
 
-    cuadricula[f][n] = `${simbolo}`;
-    nodo.classList.add("ok");
-    setTimeout(() => {
-        jugadaComputadora();
-    }, 1000);
+        cuadricula[f][n] = `${simbolo}`;
+        nodo.classList.add("ok");
+
+        setTimeout(() => {
+            jugadaComputadora();
+        }, 1000);
+
+        leerCuadricula(simbolo);
+    }
 }
 
 var espaciosVacios = [];
 
 const jugadaComputadora = () => {
-    for (let row = 0; row < cuadricula.length; row++) {
-        for (let colum = 0; colum < cuadricula[row].length; colum++) {
-            if (cuadricula[row][colum] === "") {
-                espaciosVacios.push(`${row}/${colum}`);
+    if(ganador === false){
+        for (let row = 0; row < cuadricula.length; row++) {
+            for (let colum = 0; colum < cuadricula[row].length; colum++) {
+                if (cuadricula[row][colum] === "") {
+                    espaciosVacios.push(`${row}/${colum}`);
+                }
             }
         }
+        escogerEspacio();
     }
-    escogerEspacio();
 }
 
 const escogerEspacio = () => {
-    let radom = Math.round(Math.random() * (espaciosVacios.length - 1));
-    console.log(cuadricula);
-    let numero = espaciosVacios[radom].replace("/", "");
-    let nFila = numero.charAt(0);
-    let nColum = numero.charAt(1);
-    let cuadro = document.querySelector(`.id${nColum}f${nFila}`);
-    cuadro.style.color = "rgb(8, 248, 60)";
-    cuadro.textContent = simboloComp;
-    cuadro.classList.add("ok");
-    cuadricula[nFila][nColum] = `${simboloComp}`;
-    while (espaciosVacios.length > 0) {
-        espaciosVacios.pop();
+    if (espaciosVacios.length !== 0) {
+        let radom = Math.round(Math.random() * (espaciosVacios.length - 1));
+        console.log(cuadricula);
+        let numero = espaciosVacios[radom].replace("/", "");
+        let nFila = numero.charAt(0);
+        let nColum = numero.charAt(1);
+        let cuadro = document.querySelector(`.id${nColum}f${nFila}`);
+        cuadro.style.color = "rgb(8, 248, 60)";
+        cuadro.textContent = simboloComp;
+        cuadro.classList.add("ok");
+        cuadricula[nFila][nColum] = `${simboloComp}`;
+        leerCuadricula(simboloComp);
+        while (espaciosVacios.length > 0) {
+            espaciosVacios.pop();
+        }
+    } else {
+        if(ganador === false){
+            abrirModalR("No hubo ganador");
+        }
     }
 }
 
-const leerCuadricula = () => {
-    let letras = [];
-    if (cuadricula[0][0] == simbolo && cuadricula[1][1] == simbolo && cuadricula[2][0] == simbolo) {
-        
-    } else if(cuadricula[0][0] == simbolo && cuadricula[1][1] == simbolo && cuadricula[2][2] == simbolo){
-
-    } else if(cuadricula[0][0] == simbolo && cuadricula[1][0] == simbolo && cuadricula[2][0] == simbolo){
-
-    } else if(cuadricula[0][0] == simbolo && cuadricula[1][1] == simbolo && cuadricula[2][0] == simbolo){
-
-    } else if(cuadricula[0][1] == simbolo && cuadricula[1][1] == simbolo && cuadricula[2][1] == simbolo){
-
-    } else if(cuadricula[0][2] == simbolo && cuadricula[1][2] == simbolo && cuadricula[2][2] == simbolo){
-
+const leerCuadricula = letra => {
+    if (cuadricula[0][0] === letra && cuadricula[1][1] === letra && cuadricula[2][2] === letra) {
+        abrirModalR(`El ganador es ${letra}`);
+    } else if (cuadricula[0][0] === letra && cuadricula[1][1] === letra && cuadricula[2][2] === letra) {
+        abrirModalR(`El ganador es ${letra}`);
+    } else if (cuadricula[0][0] === letra && cuadricula[1][0] === letra && cuadricula[2][0] === letra) {
+        abrirModalR(`El ganador es ${letra}`);
+    } else if (cuadricula[0][0] === letra && cuadricula[1][1] === letra && cuadricula[2][0] === letra) {
+        abrirModalR(`El ganador es ${letra}`);
+    } else if (cuadricula[0][1] === letra && cuadricula[1][1] === letra && cuadricula[2][1] === letra) {
+        abrirModalR(`El ganador es ${letra}`);
+    } else if (cuadricula[0][2] === letra && cuadricula[1][2] === letra && cuadricula[2][2] === letra) {
+        abrirModalR(`El ganador es ${letra}`);
+    } else if (cuadricula[0][0] === letra && cuadricula[0][1] === letra && cuadricula[0][2] === letra) {
+        abrirModalR(`El ganador es ${letra}`);
+    } else if (cuadricula[1][0] === letra && cuadricula[1][1] === letra && cuadricula[1][2] === letra) {
+        abrirModalR(`El ganador es ${letra}`);
+    } else if (cuadricula[2][0] === letra && cuadricula[2][1] === letra && cuadricula[2][2] === letra) {
+        abrirModalR(`El ganador es ${letra}`);
+    } else if (cuadricula[0][2] === letra && cuadricula[1][1] === letra && cuadricula[2][0] === letra) {
+        abrirModalR(`El ganador es ${letra}`);
     }
 }
 
-// var cuadricula = [ este es el que sigue
-//     [
-//         "O",
-//         "O",
-//         "O"
-//     ],
-//     [
-//         "",
-//         "",
-//         ""
-//     ],
-//     [
-//         "",
-//         "",
-//         ""
-//     ]
-// ];
+const mostrarAviso = () => {
 
-// var cuadricula = [
-//     [
-//         "",
-//         "",
-//         ""
-//     ],
-//     [
-//         "O",
-//         "O",
-//         "O"
-//     ],
-//     [
-//         "",
-//         "",
-//         ""
-//     ]
-// ];
-
-// var cuadricula = [
-//     [
-//         "",
-//         "",
-//         ""
-//     ],
-//     [
-//         "",
-//         "",
-//         ""
-//     ],
-//     [
-//         "O",
-//         "O",
-//         "O."
-//     ]
-// ];
+}
